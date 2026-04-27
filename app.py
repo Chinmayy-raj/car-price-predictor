@@ -202,7 +202,6 @@ elif engine_condition == 3:
 
 # Positive case
 if not advice_given:
-=======
 import streamlit as st
 import pickle
 import numpy as np
@@ -406,5 +405,4 @@ elif engine_condition == 3:
 
 # Positive case
 if not advice_given:
->>>>>>> b3f52b55601566b70e9843141830adc773daf22a
     st.success("✅ Your car is in great condition! Enjoy a smooth and safe driving experience 🚗💨")
