@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import pandas as pd
 import numpy as np
 import pickle
@@ -68,7 +67,6 @@ print("R2 Score:", score)
 # -----------------------------
 pickle.dump(model, open('model.pkl', 'wb'))
 
-=======
 import pandas as pd
 import numpy as np
 import pickle
@@ -137,6 +135,4 @@ print("R2 Score:", score)
 # SAVE MODEL
 # -----------------------------
 pickle.dump(model, open('model.pkl', 'wb'))
-
->>>>>>> b3f52b55601566b70e9843141830adc773daf22a
 print("✅ Model trained and saved")

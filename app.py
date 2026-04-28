@@ -59,12 +59,12 @@ model = pickle.load(open('model.pkl', 'rb'))
 valid_brands = [
     "maruti", "hyundai", "honda", "toyota", "ford", "bmw",
     "audi", "mercedes", "tata", "mahindra", "kia", "skoda",
-    "volkswagen", "nissan", "renault", "chevrolet"
+    "volkswagen", "nissan", "renault", "chevrolet","jaguar", "land", "volvo", "mini", "fiat", "isuzu","mitsubishi","subaru", "suzuki", "lexus", "infiniti", "acura", "cadillac", "lincoln", "alfa", "romeo", "ferrari", "lamborghini", "maserati", "rolls", "bentley", "aston", "martin", "bugatti", "koenigsegg", "pagani", "tesla", "lucid", "rivian", "nio", "byd", "xpeng", "fisker", "faraday", "lordstown", "canoo", "atlis", "bollinger", "gmc", "hummer", "ram", "jeep", "dodge", "chrysler", "buick", "cadillac", "chevrolet", "ford", "gmc", "honda", "hyundai", "infiniti", "kia", "lexus", "lincoln", "mazda", "mercedes-benz", "nissan", "subaru", "tesla", "toyota", "volkswagen", "volvo",
 ]
 
 # Header
-st.title("🚗 Car Price Intelligence System")
-st.markdown("### 👋 Hi car enthusiast!")
+st.title("Used Car Price Predictor")
+st.markdown("### 👋 Hi enthusiast!, Our system guide you with pricing")
 
 # Inputs
 car_name = st.text_input("Car Name (e.g., Honda City)")
