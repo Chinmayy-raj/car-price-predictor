@@ -8,10 +8,50 @@ st.set_page_config(page_title="Car Predictor", page_icon="🚗")
 # White UI
 st.markdown("""
 <style>
-.stApp { background-color: white; color: black; }
+
+/* Main background */
+.stApp {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Headings and text */
+h1, h2, h3, h4, h5, h6, p, label {
+    color: #000000 !important;
+}
+
+/* Input fields */
+input, textarea {
+    color: black !important;
+    background-color: #f9f9f9 !important;
+}
+
+/* Selectbox */
+div[data-baseweb="select"] {
+    background-color: #f9f9f9 !important;
+    color: black !important;
+}
+
+/* Dropdown text */
+div[data-baseweb="select"] span {
+    color: black !important;
+}
+
+/* Buttons */
+.stButton>button {
+    background-color: #2563eb;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* Slider text */
+.stSlider label {
+    color: black !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
-
 # Load model
 model = pickle.load(open('model.pkl', 'rb'))
 
