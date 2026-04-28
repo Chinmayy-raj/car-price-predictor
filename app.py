@@ -5,69 +5,43 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Car Predictor", page_icon="🚗")
 
-# White UI
+# -----------------------------
+# UI STYLE
+# -----------------------------
 st.markdown("""
 <style>
-
-/* Main background */
-.stApp {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-/* Headings and text */
-h1, h2, h3, h4, h5, h6, p, label {
-    color: #000000 !important;
-}
-
-/* Input fields */
-input, textarea {
-    color: black !important;
-    background-color: #f9f9f9 !important;
-}
-
-/* Selectbox */
-div[data-baseweb="select"] {
-    background-color: #f9f9f9 !important;
-    color: black !important;
-}
-
-/* Dropdown text */
-div[data-baseweb="select"] span {
-    color: black !important;
-}
-
-/* Buttons */
-.stButton>button {
-    background-color: #2563eb;
-    color: white;
-    border-radius: 8px;
-    font-weight: bold;
-}
-
-/* Slider text */
-.stSlider label {
-    color: black !important;
-}
-
+.stApp { background-color: #ffffff; color: #000000; }
+h1, h2, h3, h4, h5, h6, p, label { color: #000000 !important; }
+input, textarea { color: black !important; background-color: #f9f9f9 !important; }
+div[data-baseweb="select"] { background-color: #f9f9f9 !important; color: black !important; }
+div[data-baseweb="select"] span { color: black !important; }
+.stButton>button { background-color: #2563eb; color: white; border-radius: 8px; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True)
-# Load model
+
+# -----------------------------
+# LOAD MODEL
+# -----------------------------
 model = pickle.load(open('model.pkl', 'rb'))
 
-# Valid brands
-valid_brands = [
-    "maruti", "hyundai", "honda", "toyota", "ford", "bmw",
-    "audi", "mercedes", "tata", "mahindra", "kia", "skoda",
-    "volkswagen", "nissan", "renault", "chevrolet","jaguar", "land", "volvo", "mini", "fiat", "isuzu","mitsubishi","subaru", "suzuki", "lexus", "infiniti", "acura", "cadillac", "lincoln", "alfa", "romeo", "ferrari", "lamborghini", "maserati", "rolls", "bentley", "aston", "martin", "bugatti", "koenigsegg", "pagani", "tesla", "lucid", "rivian", "nio", "byd", "xpeng", "fisker", "faraday", "lordstown", "canoo", "atlis", "bollinger", "gmc", "hummer", "ram", "jeep", "dodge", "chrysler", "buick", "cadillac", "chevrolet", "ford", "gmc", "honda", "hyundai", "infiniti", "kia", "lexus", "lincoln", "mazda", "mercedes-benz", "nissan", "subaru", "tesla", "toyota", "volkswagen", "volvo",
-]
+# -----------------------------
+# VALID BRANDS
+# -----------------------------
+valid_brands = ["maruti","hyundai","honda","toyota","ford","bmw","audi","mercedes",
+"tata","mahindra","kia","skoda","volkswagen","nissan","renault","chevrolet"
+"jaguar","land","volvo","mini","fiat","isuzu","mitsubishi","porsche",
+"subaru","suzuki","datsun","lamborghini","ferrari","rolls","bentley","aston","maserati","bugatti", "alfa","romeo","lexus","infiniti","acura","lincoln","cadillac","genesis","tesla","lucid","rivian","fisker","byd","nio","xpeng","wm","great","baic","changan","gac","geely","haval","mg","ora","sehol","seres","voyah","zhongtong","kinglong","yutong","foton","ashok","leyland","eicher","bajaj",]
 
-# Header
+# -----------------------------
+# HEADER
+# -----------------------------
 st.title("Used Car Price Predictor")
-st.markdown("### 👋 Hi enthusiast!, Our system guide you with pricing")
+st.markdown("#### Hi enthusiast!, we will guide you with your upcoming car.")
 
-# Inputs
-car_name = st.text_input("Car Name (e.g., Honda City)")
+# -----------------------------
+# INPUTS
+# -----------------------------
+car_name = st.text_input("Car Name (Please enter along with brand name)")
 
 col1, col2 = st.columns(2)
 
@@ -77,58 +51,63 @@ with col1:
     kms_driven = st.number_input("Kilometers Driven")
 
 with col2:
-    fuel_type = st.selectbox("Fuel Type", ["Petrol", "Diesel", "CNG"])
-    seller_type = st.selectbox("Seller Type", ["Dealer", "Individual"])
-    transmission = st.selectbox("Transmission", ["Manual", "Automatic"])
-    owner = st.selectbox("Number of Previous Owners", [1,2,3,4])
+    fuel_type = st.selectbox("Fuel Type", ["Petrol","Diesel","CNG"])
+    seller_type = st.selectbox("Seller Type", ["Dealer","Individual"])
+    transmission = st.selectbox("Transmission", ["Manual","Automatic"])
+    owner = st.selectbox("Owners", [1,2,3,4])
 
-# Condition
+# -----------------------------
+# CONDITION INPUT
+# -----------------------------
 st.subheader("🔍 Car Condition")
 
-scratches = st.selectbox("Scratches", ["None", "Minor", "Major"])
-paint_faded = st.selectbox("Paint Faded", ["No", "Yes"])
-repainted = st.selectbox("Repainted", ["No", "Yes"])
-accident_history = st.selectbox("Accident History", ["No", "Yes"])
-service_history = st.selectbox("Service History", ["Yes", "No"])
+scratches = st.selectbox("Scratches", ["None","Minor","Major"])
+paint_faded = st.selectbox("Paint Faded", ["No","Yes"])
+repainted = st.selectbox("Repainted", ["No","Yes"])
+accident_history = st.selectbox("Accident History", ["No","Yes"])
+service_history = st.selectbox("Service History", ["Yes","No"])
 
-engine_condition = st.slider("Engine", 1, 5)
-brake_condition = st.slider("Brakes", 1, 5)
-tire_condition = st.slider("Tyres", 1, 5)
+engine_condition = st.slider("Engine",1,5)
+brake_condition = st.slider("Brakes",1,5)
+tire_condition = st.slider("Tyres",1,5)
 
-# Encoding
+# -----------------------------
+# ENCODING
+# -----------------------------
 car_age = 2025 - year
-fuel_map = {"Petrol":0, "Diesel":1, "CNG":2}
-seller_map = {"Dealer":0, "Individual":1}
-trans_map = {"Manual":0, "Automatic":1}
+fuel_map = {"Petrol":0,"Diesel":1,"CNG":2}
+seller_map = {"Dealer":0,"Individual":1}
+trans_map = {"Manual":0,"Automatic":1}
 
-# Predict
+# -----------------------------
+# PREDICT
+# -----------------------------
 if st.button("Predict"):
 
     # Validation
     if not car_name:
-        st.error("❌ Please enter a car name")
+        st.error("Enter car name")
         st.stop()
 
     brand = car_name.split(" ")[0].lower()
     if brand not in valid_brands:
-        st.error("❌ Invalid car brand")
+        st.error("Invalid car brand")
         st.stop()
 
     # Model input
-    input_data = np.array([[
-        present_price,
-        kms_driven,
-        fuel_map[fuel_type],
-        seller_map[seller_type],
-        trans_map[transmission],
-        owner,
-        car_age
-    ]])
+    input_data = np.array([[present_price,kms_driven,
+                            fuel_map[fuel_type],
+                            seller_map[seller_type],
+                            trans_map[transmission],
+                            owner,car_age]])
 
     base_price = model.predict(input_data)[0]
 
-    # Condition penalty
+    # -----------------------------
+    # CONDITION LOGIC
+    # -----------------------------
     penalty = 0
+
     if scratches == "Minor": penalty += 0.03
     elif scratches == "Major": penalty += 0.08
     if paint_faded == "Yes": penalty += 0.05
@@ -136,81 +115,98 @@ if st.button("Predict"):
     if accident_history == "Yes": penalty += 0.10
     if service_history == "No": penalty += 0.07
 
-    mech_factor = (engine_condition + brake_condition + tire_condition) / 15
-    usage_penalty = min(kms_driven / 100000, 1) * 0.15
-    owner_penalty = owner * 0.04
+    mech_factor = (engine_condition + brake_condition + tire_condition)/15
+    usage_penalty = min(kms_driven/100000,1)*0.15
+    owner_penalty = owner*0.04
 
-    final_price = base_price * (1 - penalty - usage_penalty - owner_penalty) * mech_factor
+    final_price = base_price*(1-penalty-usage_penalty-owner_penalty)*mech_factor
     final_price = max(0, final_price)
 
-    st.success(f"💰 Estimated Price: ₹ {round(final_price,2)} lakhs")
+    st.success(f"Estimated Price: ₹ {round(final_price,2)} lakhs")
 
-    # Graph
-    st.subheader("📉 Dynamic Depreciation")
+    # -----------------------------
+    # DYNAMIC GRAPH (FIXED)
+    # -----------------------------
+    st.subheader("Depreciation Curve")
 
-    years = list(range(year, 2026))
+    years = list(range(year,2026))
     prices = []
 
-    base_rate = 0.12 if fuel_type == "Petrol" else 0.09
-    dynamic_rate = base_rate + penalty + usage_penalty + owner_penalty + (1 - mech_factor)*0.1
-    dynamic_rate = min(dynamic_rate, 0.35)
+    for i,y in enumerate(years):
 
-    for y in years:
         age = y - year
-        price = present_price * ((1 - dynamic_rate) ** age)
-        price *= (1 - 0.02 * age)
+
+        if age<=1: dep_rate=0.15
+        elif age<=3: dep_rate=0.10
+        elif age<=5: dep_rate=0.08
+        else: dep_rate=0.06
+
+        km_factor=min(kms_driven/100000,1)*0.05
+        owner_factor=owner*0.015
+        condition_factor=(1-mech_factor)*0.08
+
+        extra=0
+        if accident_history=="Yes": extra+=0.05
+        if repainted=="Yes": extra+=0.03
+        if paint_faded=="Yes": extra+=0.02
+
+        final_rate=min(dep_rate+km_factor+owner_factor+condition_factor+extra,0.30)
+
+        if i==0:
+            price=present_price
+        else:
+            price=prices[-1]*(1-final_rate)
+
         prices.append(price)
 
-    prices[-1] = final_price
+    prices[-1]=final_price
 
-    fig, ax = plt.subplots()
-    ax.plot(years, prices, marker='o')
+    fig,ax=plt.subplots()
+    ax.plot(years,prices,marker='o')
     ax.set_xlabel("Year")
     ax.set_ylabel("Price")
-    ax.set_title("Realistic Depreciation Curve")
+    ax.set_title("Car Depreciation")
+    ax.grid(True)
+
     st.pyplot(fig)
 
-    # Score
-    score = (mech_factor * 100) - (penalty * 100) - (usage_penalty * 100)
+    # -----------------------------
+    # SCORE
+    # -----------------------------
+    score=(mech_factor*100)-(penalty*100)-(usage_penalty*100)
 
     st.subheader("🔎 Condition Score")
     st.write(f"{round(score,1)}/100")
-    st.progress(max(0, min(score/100, 1)))
+    st.progress(max(0,min(score/100,1)))
 
-    # Recommendation
+    # -----------------------------
+    # RECOMMENDATION
+    # -----------------------------
     st.subheader("🧠 Recommendation")
-    if score > 70:
-        st.success("✅ Strong Buy")
-    elif score > 50:
-        st.warning("⚠️ Inspect before buying")
-    else:
-        st.error("❌ Avoid")
 
-    # Maintenance Advice
+    if score>70:
+        st.success("Strong Buy")
+    elif score>50:
+        st.warning("Inspect before buying")
+    else:
+        st.error("Avoid")
+
+    # -----------------------------
+    # MAINTENANCE
+    # -----------------------------
     st.subheader("🛠️ Maintenance Advice")
 
-    advice_given = False
+    advice=False
 
-    if tire_condition <= 2:
-        st.warning("⚠️ Replace tyres immediately")
-        advice_given = True
-    elif tire_condition == 3:
-        st.info("Tyres moderately worn")
-        advice_given = True
+    if tire_condition<=2:
+        st.warning("Replace tyres")
+        advice=True
+    if brake_condition<=2:
+        st.warning("Check brakes")
+        advice=True
+    if engine_condition<=2:
+        st.warning("Service engine")
+        advice=True
 
-    if brake_condition <= 2:
-        st.warning("⚠️ Check brake pads")
-        advice_given = True
-    elif brake_condition == 3:
-        st.info("Brake inspection needed")
-        advice_given = True
-
-    if engine_condition <= 2:
-        st.warning("⚠️ Engine servicing required")
-        advice_given = True
-    elif engine_condition == 3:
-        st.info("Engine average condition")
-        advice_given = True
-
-    if not advice_given:
-        st.success("✅ Car is in excellent condition")
+    if not advice:
+        st.success("Car in excellent condition")
